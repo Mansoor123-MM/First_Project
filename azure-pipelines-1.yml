@@ -5,8 +5,8 @@ pool:
   name: MyHostpool # Replace with your agent pool name
 
 variables:
-  imageRepository: 'MansoorDocker'
-  containerRegistry: 'your-container-registry'
+  imageRepository: 'mansoordocker'
+  containerRegistry: 'Mansoor'
   dockerfilePath: '$(System.DefaultWorkingDirectory)/project/Dockerfile'
   tag: '$(Build.BuildId)'
 
