@@ -2,18 +2,31 @@
 # Start with a minimal pipeline that you can customize to build and deploy your code.
 # Add steps that build, run tests, deploy, and more:
 # https://aka.ms/yaml
-
 trigger:
 - main
 
-pool:
-  name: MyHostpool
+pool: MyHostpool
 
 steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
+- task: Docker@2
+  displayName: Login to Docker Hub
+  inputs:
+    command: 'login'
+    containerRegistry: 'your-docker-hub-connection'
 
-- script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
+- task: Docker@2
+  displayName: Build and push Docker image
+  inputs:
+    command: 'buildAndPush'
+    repository: 'your-docker-hub-repo/your-image-name'
+    containerRegistry: 'your-docker-hub-connection'
+    Dockerfile: '**/Dockerfile'
+    tags: 'latest'
+
+- task: Bash@3
+  displayName: 'List Docker images'
+  inputs:
+    command: 'bash'
+    workingDirectory: ''
+  script: |
+    docker images
